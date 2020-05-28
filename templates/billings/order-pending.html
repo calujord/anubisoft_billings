@@ -1,0 +1,30 @@
+{% extends "core/base/main_base.html" %}
+{% load i18n bootstrap4%}
+{% block title %}{% trans "orders" %}{% endblock %}
+{% block css %}
+    {{ form.media }}
+{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item active" aria-current="page"><span>{% trans "myOrders" %}</span></li>
+{% endblock %}
+{% block container %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="pt-2">
+                        {% trans "orders" %}
+                    </h4>
+                    <hr>
+                    {% for order in object_list %}
+                        {% include "billings/include/order-detail-list.html" %}
+                    {% empty %}
+                        {% include "order/include/order-empty.html" %}
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
