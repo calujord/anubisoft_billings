@@ -53,7 +53,7 @@ class AnubisoftBillingsSerializer(APIJsonEncode):
                 nota=None,
                 cantidad=o.quantity,
                 precioUnitario=o.get_service_price_without_taxes(),
-                descuento=0.0,
+                descuento=o.get_discount_product_value(),
                 ice=0,
                 iva=o.get_taxes(),
                 total=o.get_total_service_price(),
