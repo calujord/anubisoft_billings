@@ -30,7 +30,6 @@ class SRIBillings:
         if self.order.pending_to_billing:
             url = "%s/receptorComprobantesNeutros/rest/factura" % (AS_BILLINGS_URL)
             data = json.dumps(self.order, cls=AnubisoftBillingsSerializer, indent=4)
-            print(data)
             headers = {'Content-Type': 'application/json'}
             response = requests.request(
                 "POST", url,
@@ -44,5 +43,4 @@ class SRIBillings:
                 self.order.url_billing = url_pdf
                 self.order.save()
                 return url_pdf
-
         return None
