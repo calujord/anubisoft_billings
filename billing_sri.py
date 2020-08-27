@@ -35,6 +35,7 @@ class SRIBillings:
                 "POST", url,
                 data=data, headers=headers
             )
+            print(response)
             if response != "":
                 data_received = json.loads(response.text)
                 url_pdf = "https://www.tu-efactura.ec/visorRideXml/VisorRide?claveAcceso=%s" % data_received.get(
