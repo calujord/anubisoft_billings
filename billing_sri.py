@@ -31,6 +31,7 @@ class SRIBillings:
             url = "%s/receptorComprobantesNeutros/rest/factura" % (AS_BILLINGS_URL)
             data = json.dumps(self.order, cls=AnubisoftBillingsSerializer, indent=4)
             headers = {'Content-Type': 'application/json'}
+            print(data)
             response = requests.request(
                 "POST", url,
                 data=data, headers=headers
