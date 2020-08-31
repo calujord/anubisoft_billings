@@ -19,7 +19,6 @@ class AnubisoftBillingsSerializer(APIJsonEncode):
                 tokenSeguro=business_billing.secret_key, #"wH8xajECFFk=",
                 codigoEstablecimiento=business_billing.establecimiento_code, # "001",
                 codigoPuntoVenta=business_billing.punto_venta_code, #"003",
-                secuenciaDocumento='%09d' % o.pk,
                 tipoIdentificacionCliente="04" if len(o.billing.identification) == 13 else "05" if len(
                     o.billing.identification) == 10 else "06",
                 razonSocialCliente=o.billing.name,
