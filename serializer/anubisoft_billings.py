@@ -14,7 +14,8 @@ class AnubisoftBillingsSerializer(APIJsonEncode):
             order_detail_list = list(o.get_order_detail())
             if o.address:
                 order_detail_list.append(BillingSRI(total=o.get_total_delivery(), description=str(_("delivery")).capitalize()))
-            return dict(
+
+            data = dict(
                 rucEmisor=business_billing.public_key, #"U60zUbgoI+q6b6v3IO5D8Q==",
                 tokenSeguro=business_billing.secret_key, #"wH8xajECFFk=",
                 codigoEstablecimiento=business_billing.establecimiento_code, # "001",
@@ -31,6 +32,9 @@ class AnubisoftBillingsSerializer(APIJsonEncode):
                     dict(formaPago=20, monto=o.get_total_products_delivery()) # preguntar las formas de pago
                 ]
             )
+            if o.billing_number is not None:
+                data["secuenciaDocumento"] = '%09d' % o.billing_number,
+            return data
         elif isinstance(o, BillingSRI):
             return dict(
                 codigo="DELIVERY",

@@ -4,6 +4,7 @@ __author__ = 'CARLOS JORDAN'
 
 import requests
 
+from anubisoft_billings.models import BusinessBilling
 from anubisoft_billings.serializer.anubisoft_billings import AnubisoftBillingsSerializer
 from anubisoft_ecommerce.orders.models import Order
 
@@ -29,14 +30,18 @@ class SRIBillings:
     def send(self):
         if self.order.pending_to_billing:
             url = "%s/receptorComprobantesNeutros/rest/factura" % (AS_BILLINGS_URL)
+            b = BusinessBilling.objects.all().last()
+            if b is not None:
+                self.order.billing_number = b.secuencial
+                self.order.save()
+                b.secuencial += 1
+                b.save()
             data = json.dumps(self.order, cls=AnubisoftBillingsSerializer, indent=4)
             headers = {'Content-Type': 'application/json'}
-            print(data)
             response = requests.request(
                 "POST", url,
                 data=data, headers=headers
             )
-            print(response)
             if response != "":
                 data_received = json.loads(response.text)
                 url_pdf = "https://www.tu-efactura.ec/visorRideXml/VisorRide?claveAcceso=%s" % data_received.get(
