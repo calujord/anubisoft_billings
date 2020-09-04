@@ -33,7 +33,7 @@ class AnubisoftBillingsSerializer(APIJsonEncode):
                 ]
             )
             if o.billing_number is not None:
-                data["secuenciaDocumento"] = '%09d' % o.billing_number,
+                data["secuenciaDocumento"] = '%09d' % o.billing_number
             return data
         elif isinstance(o, BillingSRI):
             return dict(
