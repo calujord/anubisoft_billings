@@ -27,7 +27,7 @@
             <hr>
             <p><b>{% trans "products"|capfirst %}</b></p>
             {% for item in order.get_order_detail %}
-                <img class="img-responsive img-thumbnail" src="{% thumbnail item.product.image 32x32 box=item.product.cropping crop detail %}" alt="{{ item.product.name }}">
+                <img alt="{{ item.product.name }}" class="img-responsive img-thumbnail" src="{% thumbnail item.product.image 32x32 box=item.product.cropping crop detail %}" alt="{{ item.product.name }}">
             {% endfor %}
             <hr>
 
