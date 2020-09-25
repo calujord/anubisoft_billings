@@ -59,7 +59,7 @@ class AnubisoftBillingsSerializer(APIJsonEncode):
                 descuento=o.get_discount_product_value(),
                 ice=0,
                 iva=o.get_taxes(),
-                total=o.get_total_service_with_discount(),
+                total=o.get_total_service_price(),
                 codigoIVA="2" if o.get_taxes() > 0 else "0",
                 fechaExpiracion=None, lote=None, serie=None, producto=True
             )
