@@ -37,6 +37,7 @@ class SRIBillings:
                 b.secuencial += 1
                 b.save()
             data = json.dumps(self.order, cls=AnubisoftBillingsSerializer, indent=4)
+            print(data)
             headers = {'Content-Type': 'application/json'}
             response = requests.request(
                 "POST", url,
