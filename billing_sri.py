@@ -37,17 +37,35 @@ class SRIBillings:
                 b.secuencial += 1
                 b.save()
             data = json.dumps(self.order, cls=AnubisoftBillingsSerializer, indent=4)
-            headers = {'Content-Type': 'application/json'}
+            headers = {
+                'Content-Type': 'application/json',
+                'sharedaccesstoken': '12345'
+            }
             response = requests.request(
                 "POST", url,
                 data=data, headers=headers
             )
             if response != "":
                 data_received = json.loads(response.text)
-                url_pdf = "https://www.tu-efactura.ec/visorRideXml/VisorRide?claveAcceso=%s" % data_received.get(
-                    "claveAcceso")
+                url_pdf = self.get_url_pdf(data_received.get("claveAcceso"))
                 self.order.pending_to_billing = False
                 self.order.url_billing = url_pdf
                 self.order.save()
                 return url_pdf
         return None
+
+    def get_url_send(self):
+        try:
+            exits = settings.OTHER_BILLING
+            return "http://rmdseinode1.rmgrid.com:8096/api/DocumentHook"
+        except:
+            return "%s/receptorComprobantesNeutros/rest/factura" % (AS_BILLINGS_URL)
+
+
+    def get_url_pdf(self, clave_acceso):
+
+        try:
+            exits = settings.OTHER_BILLING
+            return "http://rmdseinode1.rmgrid.com:8096/api/DocumentHook"
+        except:
+            return "https://www.tu-efactura.ec/visorRideXml/VisorRide?claveAcceso=%s" % clave_acceso
