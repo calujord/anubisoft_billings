@@ -29,7 +29,7 @@ class SRIBillings:
 
     def send(self):
         if self.order.pending_to_billing:
-            url = "%s/receptorComprobantesNeutros/rest/factura" % (AS_BILLINGS_URL)
+            url = self.get_url_send()
             b = BusinessBilling.objects.all().last()
             if b is not None:
                 self.order.billing_number = b.secuencial
@@ -61,11 +61,18 @@ class SRIBillings:
         except:
             return "%s/receptorComprobantesNeutros/rest/factura" % (AS_BILLINGS_URL)
 
-
     def get_url_pdf(self, clave_acceso):
 
         try:
             exits = settings.OTHER_BILLING
-            return "http://rmdseinode1.rmgrid.com:8096/api/DocumentHook"
+            ruc = settings.RUC_BILLING
+            doc_type = "FT"
+            document = "001002%09d" % self.order.billing_number
+            key = "InDs689*82+65K9"
+            message = ruc + doc_type + document + key
+            message_bytes = message.encode('ascii')
+            base64_bytes = base64.b64encode(message_bytes)
+            base64_message = base64_bytes.decode('ascii')
+            return "http://rmdstesting.cloudapp.net:8091/direct/pdf/%s" % base64_message
         except:
             return "https://www.tu-efactura.ec/visorRideXml/VisorRide?claveAcceso=%s" % clave_acceso
