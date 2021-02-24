@@ -31,6 +31,7 @@ class AnubisoftBillingsSerializer(APIJsonEncode):
                 pagos=[
                     dict(formaPago=o.get_code_payment(), monto=o.get_total_products_delivery()) # preguntar las formas de pago
                 ]
+
             )
             if o.billing_number is not None:
                 data["secuenciaDocumento"] = '%09d' % o.billing_number
