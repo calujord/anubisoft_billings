@@ -53,8 +53,8 @@ class AnubisoftBillingsSerializer(APIJsonEncode):
         elif isinstance(o, OrderDetail):
             return dict(
                 codigo=o.product.internal_code,
-                descripcion="%s %s" % (o.product.name, o.product.description),
-                nota=None,
+                descripcion=o.product.name,
+                nota=o.product.description,
                 cantidad=o.quantity,
                 precioUnitario=o.get_service_price_without_taxes(),
                 descuento=o.get_discount_product_value(),
