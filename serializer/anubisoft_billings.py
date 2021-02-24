@@ -23,7 +23,9 @@ class AnubisoftBillingsSerializer(APIJsonEncode):
                 tipoIdentificacionCliente="04" if len(o.billing.identification) == 13 else "05" if len(
                     o.billing.identification) == 10 else "06",
                 razonSocialCliente=o.billing.name,
-                nota1="", nota2="", nota3="", nota4="", nota5="", esElectronico=True, codigoSucursalCliente=None,
+                nota1="Orden No. %s" % o.pk,
+                nota2="Ciudad: %s" % o.address.canton.nombre if o.address is not None and o.address.canton is not None else 'No definida',
+                nota3="", nota4="", nota5="", esElectronico=True, codigoSucursalCliente=None,
                 identificacionCliente=o.billing.identification,
                 correoElectronicoCliente=o.billing.email,
                 direccionCliente=o.billing.address_name,
