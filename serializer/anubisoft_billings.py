@@ -34,7 +34,7 @@ class AnubisoftBillingsSerializer(APIJsonEncode):
                 direccionCliente=o.billing.address_name,
                 detalles=order_detail_list,
                 pagos=[
-                    dict(formaPago=o.get_code_payment(), monto=o.get_total_products_delivery()) # preguntar las formas de pago
+                    dict(formaPago=o.get_code_payment(), monto=o.get_total()) # preguntar las formas de pago
                 ]
 
             )
