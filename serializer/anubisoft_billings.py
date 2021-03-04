@@ -24,7 +24,7 @@ class AnubisoftBillingsSerializer(APIJsonEncode):
                     o.billing.identification) == 10 else "06",
                 razonSocialCliente=o.billing.name,
                 nota1="Orden No. %s" % o.pk,
-                nota2="Ciudad: %s" % o.address.canton.nombre if o.address is not None and o.address.canton is not None else 'No definida',
+                nota2="Ciudad: %s %s" % (o.address.canton.nombre, o.address.canton.provincia.nombre) if o.address is not None and o.address.canton is not None else 'No definida',
                 nota3="Teléfono: %s" % o.address.phone if o.address is not None else 'No definido',
                 nota4="",
                 nota5="",
