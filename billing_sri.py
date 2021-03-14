@@ -45,6 +45,7 @@ class SRIBillings:
                 "POST", url,
                 data=data, headers=headers
             )
+            print(response)
             if response != "":
                 print(json.loads(response.text))
                 data_received = json.loads(response.text)
