@@ -26,8 +26,8 @@ class AnubisoftBillingsSerializer(APIJsonEncode):
                 nota1="Orden No. %s" % o.pk,
                 nota2="Ciudad: %s %s" % (o.address.canton.nombre, o.address.canton.provincia.nombre) if o.address is not None and o.address.canton is not None else 'No definida',
                 nota3="Teléfono: %s" % o.address.phone if o.address is not None else 'No definido',
-                nota4="",
-                nota5="",
+                nota4="Nombre de contacto: %s %s" % (o.address.first_name, o.address.last_name) if o.address is not None else 'No definido',
+                nota5="Categoría: %s" % order_detail_list[0].product.get_categories()[0] if len(order_detail_list) > 0 and len(order_detail_list[0].product.get_categories()) > 0 else '',
                 esElectronico=True, codigoSucursalCliente=None,
                 identificacionCliente=o.billing.identification,
                 correoElectronicoCliente=o.billing.email,
@@ -36,7 +36,6 @@ class AnubisoftBillingsSerializer(APIJsonEncode):
                 pagos=[
                     dict(formaPago=o.get_code_payment(), monto=o.get_total()) # preguntar las formas de pago
                 ]
-
             )
             if o.billing_number is not None:
                 data["secuenciaDocumento"] = '%09d' % o.billing_number
