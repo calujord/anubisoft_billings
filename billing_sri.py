@@ -29,6 +29,8 @@ class SRIBillings:
 
     def send(self):
         if self.order.pending_to_billing:
+            self.order.pending_to_billing = False
+            self.order.save()
             url = self.get_url_send()
             b = BusinessBilling.objects.all().last()
             if b is not None:
@@ -45,15 +47,16 @@ class SRIBillings:
                 "POST", url,
                 data=data, headers=headers
             )
-            print(response)
             if response != "":
-                print(json.loads(response.text))
                 data_received = json.loads(response.text)
                 url_pdf = self.get_url_pdf(data_received.get("claveAcceso"))
                 self.order.pending_to_billing = False
                 self.order.url_billing = url_pdf
                 self.order.save()
                 return url_pdf
+            else:
+                self.order.pending_to_billing = True
+                self.order.save()
         return None
 
     def get_url_send(self):
