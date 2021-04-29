@@ -29,8 +29,8 @@ class SRIBillings:
 
     def send(self):
         if self.order.pending_to_billing:
-            self.order.pending_to_billing = False
-            self.order.save()
+            # self.order.pending_to_billing = False
+            # self.order.save()
             url = self.get_url_send()
             b = BusinessBilling.objects.all().last()
             if b is not None:
