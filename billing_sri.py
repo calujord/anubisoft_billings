@@ -49,6 +49,7 @@ class SRIBillings:
             )
             if response != "":
                 data_received = json.loads(response.text)
+                print(data_received)
                 url_pdf = self.get_url_pdf(data_received.get("claveAcceso"))
                 self.order.pending_to_billing = False
                 self.order.url_billing = url_pdf
