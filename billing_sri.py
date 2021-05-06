@@ -5,7 +5,7 @@ __author__ = 'CARLOS JORDAN'
 import requests
 
 from anubisoft_billings.models import BusinessBilling
-from anubisoft_billings.serializer.anubisoft_billings import AnubisoftBillingsSerializer
+from anubisoft_billings.serializer.anubisoft_billings import AnubisoftBillingsSerializer, SGSFacturacionSerializer
 from anubisoft_ecommerce.orders.models import Order
 
 from datetime import datetime
@@ -38,11 +38,11 @@ class SRIBillings:
                 self.order.save()
                 b.secuencial += 1
                 b.save()
-            data = json.dumps(self.order, cls=AnubisoftBillingsSerializer, indent=4)
             headers = {
                 'Content-Type': 'application/json',
                 'sharedaccesstoken': '12345'
             }
+            data = self.get_data()
             response = requests.request(
                 "POST", url,
                 data=data, headers=headers
@@ -66,6 +66,14 @@ class SRIBillings:
             return "http://rmdseinode1.rmgrid.com:8096/api/DocumentHook"
         except:
             return "%s/receptorComprobantesNeutros/rest/factura" % (AS_BILLINGS_URL)
+
+    def get_data(self):
+        try:
+            exits = settings.OTHER_BILLING
+            data = json.dumps(self.order, cls=SGSFacturacionSerializer, indent=4)
+        except:
+            data = json.dumps(self.order, cls=AnubisoftBillingsSerializer, indent=4)
+        return data
 
     def get_url_pdf(self, clave_acceso):
 
