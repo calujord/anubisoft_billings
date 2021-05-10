@@ -113,8 +113,8 @@ class SGSFacturacionSerializer(APIJsonEncode):
             return data
         elif isinstance(o, BillingSRI):
             return dict(
-                codigo="CERTIFICADO IMPRESO",
-                descripcion=o.description,
+                codigo="09004595",
+                descripcion="CERTIFICADO IMPRESO",
                 nota=None,
                 cantidad=o.quantity,
                 precioUnitario=o.total,
